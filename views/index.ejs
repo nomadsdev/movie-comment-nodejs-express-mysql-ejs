@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex justify-center p-4">
+        <div class="max-w-7xl">
+            <h1 class="text-3xl mb-4">Video Clips</h1>
+            <ul>
+                <% videoClips.forEach(videoClip => { %>
+                    <div class="mb-6">
+                        <video class="w-full" controls>
+                            <source src="<%= videoClip.video_url %>" type="video/mp4">
+                        </video> 
+                        <p class="mt-2 text-xl"><%= videoClip.description %></p>
+                        <form action="/delete/<%= videoClip.id %>" method="post" class="mt-2">
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-4 rounded">Delete</button>
+                        </form>
+                        <% videoClip.comments.forEach(comment => { %>
+                            <div class="mt-2 bg-gray-200 p-2 rounded">
+                                <p><strong><%= comment.username %>:</strong> <%= comment.comment %></p>
+                            </div>
+                        <% }) %>
+                        <form action="/comment/<%= videoClip.id %>" method="post" class="mt-2">
+                            <input type="text" name="username" placeholder="Your Name" required class="border border-gray-300 rounded px-4 py-2 w-full mb-4">
+                            <textarea name="comment" placeholder="Your Comment" required class="border border-gray-300 rounded px-4 py-2 w-full mb-4"></textarea>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Comment</button>
+                        </form>
+                    </div>
+                <% }) %>
+            </ul>
+            <h2 class="text-2xl mt-8">Add New Video Clip</h2>
+            <form action="/add" method="post" class="mt-4">
+                <label for="video_url" class="block mb-2">Video URL:</label>
+                <input type="text" id="video_url" name="video_url" required class="border border-gray-300 rounded px-4 py-2 w-full mb-4">
+                <label for="description" class="block mb-2">Description:</label>
+                <textarea id="description" name="description" rows="4" cols="50" class="border border-gray-300 rounded px-4 py-2 w-full mb-4"></textarea>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
